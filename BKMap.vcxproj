@@ -127,7 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BKMap.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BKMapData.cpp" />
+    <ClCompile Include="Location.cpp" />
+    <ClCompile Include="Route.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BKMapData.h" />
+    <ClInclude Include="Location.h" />
+    <ClInclude Include="Route.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
