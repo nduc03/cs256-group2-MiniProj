@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "BKMapData.h"
 
 using namespace std;
 
@@ -38,4 +39,5 @@ int main()
             continue;
         }
     } while (option == "6");
+    cout << "Program exited!";
 }

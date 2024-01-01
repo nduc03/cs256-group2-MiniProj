@@ -11,18 +11,28 @@ struct RouteData
 {
 	int location;
 	float width;
-	RouteType pathType;
-	RouteData(int location, float width, RouteType pathType);
+	RouteType routeType;
+	RouteData(int location, float width, RouteType routeType);
 };
 
 class Route
 {
 public:
-	Route(int startId, int destId, int length, const std::vector<RouteData>& pathData);
+	Route(int startId, int destId, float length, const std::vector<RouteData>& routeData);
 
-	bool checkValidPath();
+	bool checkValidRoute() const;
 private:
-	int length;
+	float length;
 	Location startLoc, destLoc;
-	std::vector<RouteData> pathData;
+	std::vector<RouteData> routeData;
+};
+
+class RouteDrawer 
+{
+public:
+	RouteDrawer(Route route, int screenHeight, int screenWidth);
+	void draw();
+private:
+	Route route;
+	std::vector<std::vector<char>> canvas;
 };
