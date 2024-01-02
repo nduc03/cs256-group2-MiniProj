@@ -1,23 +1,35 @@
-#include "BKMapData.h"
+﻿#include "BKMapData.h"
 
-BKMapData::BKMapData(std::string locationFilePath, std::string routeFilePath)
+using namespace std;
+
+BKMapData::BKMapData(vector<string> locations, vector<string> routes)
 {
 
 }
 
 Location BKMapData::findLocationById(int id) const
 {
+	// dùng binary search vì id đã đc sort
 }
 
-Route BKMapData::getRouteData(Location loc1, Location loc2) const
+Route BKMapData::getRouteData(const Location& loc1, const Location& loc2) const
 {
 }
 
-std::vector<Route> BKMapData::findRoute(Location loc1, Location loc2) const
+vector<Route> BKMapData::findRoute(const Location& loc1, const Location& loc2) const
 {
 }
 
-std::vector<Location> BKMapData::listLocationsInRange(Location centerLoc, float distance) const
+std::vector<Location> BKMapData::listLocationsInRange(const Location& centerLoc, float distance) const
+{
+}
+
+BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& routeFilePath)
+{
+	//return BKMapData();
+}
+
+void BKMapData::saveDataToFile(const string& locationFilePath, const string& routeFilePath) const
 {
 }
 

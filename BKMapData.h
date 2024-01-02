@@ -7,16 +7,21 @@
 
 class BKMapData
 {
+	//BKMapData(const BKMapData& obj) = delete;
+
 public:
-	BKMapData(std::string locationFilePath, std::string routeFilePath);
 	Location findLocationById(int id) const;
+
 	void addLocation(Location locData);
 	void addRoute(Route route);
-	Route getRouteData(Location loc1, Location loc2) const;
-	std::vector<Route> findRoute(Location loc1, Location loc2) const;
-	std::vector<Location> listLocationsInRange(Location centerLoc, float distance) const;
+	Route getRouteData(const Location& loc1, const Location& loc2) const;
+	std::vector<Route> findRoute(const Location& loc1, const Location& loc2) const;
+	std::vector<Location> listLocationsInRange(const Location& centerLoc, float distance) const;
+
+	static BKMapData initFromFile(const std::string& locationFilePath, const std::string& routeFilePath);
+	void saveDataToFile(const std::string& locationFilePath, const std::string& routeFilePath) const;
 private:
-	std::set<Location> locations; // consider using custom comparision
+	BKMapData(std::vector<std::string> locations, std::vector<std::string> routes);
+	std::set<Location, LocationComparer> locations;
 	std::vector<Route> routes;
 };
-

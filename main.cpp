@@ -6,7 +6,8 @@ using namespace std;
 
 int main()
 {
-    string option;
+    BKMapData data = BKMapData::initFromFile("path/placeholder1", "path/placeholder2");
+    string input;
     do {
         cout << "BKMap program\n"
             << "1. Add data: Add new routes or locations.\n"
@@ -16,21 +17,21 @@ int main()
             << "5. Check valid data.\n"
             << "6. Exit the program.\n"
             << "Enter your option: ";
-        getline(cin, option);
-        if (option  == "1") {
+        getline(cin, input);
+        if (input  == "1") {
 
         }
-        else if (option == "2") {
+        else if (input == "2") {
             // Enter 2 locations, display direct routes between them (if any), draw a map of the route, and calculate the route area.
         }
-        else if (option == "3") {
+        else if (input == "3") {
             // Enter 2 locations, display a number for routes (direct and indirect) between them (if any), 
             // and draw a map of the routes sorted by length between the two locations.
         }
-        else if (option == "4") {
+        else if (input == "4") {
             // Enter a location and any distance to display all locations within that distance from the entered location
         }
-        else if (option == "5") {
+        else if (input == "5") {
             // Check the validity of data: check all routes for any route with a length less than the distance between two points, 
             // check if routes have valid starting and ending points.
         }
@@ -38,6 +39,7 @@ int main()
             cout << "Invalid option!";
             continue;
         }
-    } while (option == "6");
+    } while (input == "6");
+    data.saveDataToFile("path/placeholder1", "path/placeholder2");
     cout << "Program exited!";
 }
