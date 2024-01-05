@@ -14,7 +14,7 @@ Location::Location(string locationFormat)
 
 float Location::getDistance(Location loc1, Location loc2)
 {
-	// use formula sqrt(pow(loc2.longitude - loc1.longitude, 2) + pow(loc2.latitude - loc1.latitude, 2))
+	// use formula arccos(sin(lat1)*sin(lat2)+cos(lat1)*cos(lat2)*cos(long2-long1))*6371 
 }
 
 bool LocationComparer::operator()(const Location& a, const Location& b) const

@@ -2,12 +2,18 @@
 
 using namespace std;
 
-RouteData::RouteData(int location, float width, RouteType routeType)
+RouteChunk::RouteChunk(int location, float width, RouteType routeType)
 {
 
 }
 
-Route::Route(int startId, int destId, float length, const vector<RouteData>& routeData)
+float RouteChunk::getChunkArea() const
+{
+    // if RouteType is INDENT -> calculate the area of rectangle
+    // if RouuteType is DIAGONAL -> calculate the areac of trapezoid (hình thang)
+}
+
+Route::Route(int startId, int destId, float length, const vector<RouteChunk>& routeData)
 {
 }
 
@@ -18,11 +24,16 @@ bool Route::checkValidRoute() const
     // use Location::getDistance() to get the length of 2 locations
 }
 
-RouteDrawer::RouteDrawer(Route route, int screenHeight, int screenWidth)
+float Route::getRouteArea() const
 {
+    // calculate the sum of all area in RouteChunk
 }
 
-void RouteDrawer::draw()
-{
-}
+//RouteDrawer::RouteDrawer(Route route, int screenHeight, int screenWidth)
+//{
+//}
+//
+//void RouteDrawer::draw()
+//{
+//}
 

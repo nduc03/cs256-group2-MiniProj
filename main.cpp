@@ -9,13 +9,15 @@ int main()
     BKMapData data = BKMapData::initFromFile("path/placeholder1", "path/placeholder2");
     string input;
     do {
-        cout << "BKMap program\n"
+        cout << "------------------------------------------------"
+            << "BKMap program\n"
             << "1. Add data: Add new routes or locations.\n"
             << "2. Display data.\n"
             << "3. Display routes.\n"
             << "4. Display locations.\n"
             << "5. Check valid data.\n"
             << "6. Exit the program.\n"
+            << "-------------------------------------------------"
             << "Enter your option: ";
         getline(cin, input);
         if (input  == "1") {
