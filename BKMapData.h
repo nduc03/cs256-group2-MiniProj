@@ -12,9 +12,9 @@ class BKMapData
 public:
 	Location findLocationById(int id) const;
 
-	void addLocation(Location locData);
+	void addLocation(Location location);
 	void addRoute(Route route);
-	Route getRouteData(const Location& loc1, const Location& loc2) const;
+	Route getRoute(const Location& loc1, const Location& loc2) const;
 	std::vector<Route> findRoute(const Location& loc1, const Location& loc2) const;
 	std::vector<Location> listLocationsInRange(const Location& centerLoc, float distance) const;
 
@@ -24,4 +24,6 @@ private:
 	BKMapData(std::vector<std::string> locations, std::vector<std::string> routes);
 	std::set<Location, LocationComparer> locations;
 	std::vector<Route> routes;
+	static bool checkValidRouteLength(std::string);
+	static bool checkValidRouteInfo(std::string);
 };

@@ -140,6 +140,7 @@
     <ClInclude Include="BKMapData.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Route.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,25 @@
 #include <iostream>
 #include <string>
 #include "BKMapData.h"
+#include "Utils.h"
 
 using namespace std;
+
+vector<string> Utils::split(const string& str, char delim)
+{
+    string temp = "";
+    vector<string> v;
+    for (auto& c : str)
+    {
+        if (c != delim) temp += c;
+        else
+        {
+            v.push_back(temp);
+            temp.clear();
+        }
+    }
+    return v;
+}
 
 int main()
 {

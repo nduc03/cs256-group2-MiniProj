@@ -4,7 +4,7 @@
 
 enum RouteType 
 {
-	INDENT, DIAGONAL
+	INDENT = 1, DIAGONAL = 2
 };
 
 struct RouteChunk 
@@ -14,22 +14,25 @@ struct RouteChunk
 	float width;
 	RouteType routeType;
 	RouteChunk(int location, float width, RouteType routeType);
+	RouteChunk(std::string routeChunkFormat);
 	float getChunkArea() const;
+	std::string toString() const;
 	// ý tưởng: thêm method để vẽ chunk
 };
 
 class Route
 {
 public:
-	Route(int startId, int destId, float length, const std::vector<RouteChunk>& routeData);
+	Route(int startId, int destId, float length, const std::vector<RouteChunk>& chunks);
 
 	bool checkValidRoute() const;
 	float getRouteArea() const;
+	std::string toString() const;
 	// ý tưởng: thêm method để vẽ toàn bộ route dựa trên việc ghép những chunk đã đc vẽ
 private:
 	float length;
 	Location startLoc, destLoc;
-	std::vector<RouteChunk> routeData;
+	std::vector<RouteChunk> chunks;
 };
 
 //class RouteDrawer 
