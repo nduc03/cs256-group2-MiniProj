@@ -31,7 +31,7 @@ BKMapData::BKMapData(vector<string> locations, vector<string> routes)
 	{
 		string temp;
 		vector<string> data = Utils::split(str, '\n');
-		// remove first 5 char (PATH:) then split 2 location Ids by comma
+		// use substr to remove first 5 char (PATH:) then split 2 location Ids by comma
 		auto locIdData = Utils::split(data[0].substr(5), ',');
 		auto& lengthData = data[1];
 		vector<RouteChunk> chunkList;
@@ -48,29 +48,35 @@ BKMapData::BKMapData(vector<string> locations, vector<string> routes)
 	}
 }
 
-bool BKMapData::checkValidRouteLength(std::string str)
+bool BKMapData::checkValidChunkFormat(std::string str)
 {
-	for (auto& c : str)
+	auto infoParts = Utils::split(str, ',');
+	if (infoParts.size() != 2) return false;
+	for (auto& part : infoParts)
 	{
-		if (c != '.' || !isdigit(c)) return false;
+		if (!Utils::isNonNegativeNumber(part)) return false;
 	}
 	return true;
 }
 
-bool BKMapData::checkValidRouteInfo(std::string str)
+BKMapData::BKMapData()
 {
-	int commaCount = 0;
-	for (auto& c : str)
-	{
-		if (c == ',') commaCount++;
-		else if (c != '.' || !isdigit(c)) return false;
-	}
-	return commaCount == 2;
 }
 
+/// <summary>
+/// Find the location then return the object with the same id.
+/// If id does not exist, return default constructor which has id = -1
+/// </summary>
+/// <param name="id"></param>
+/// <returns>Return the object if found, if not return empty Location object with id = -1</returns>
 Location BKMapData::findLocationById(int id) const
 {
-	// dùng binary search vì id đã đc sort
+	auto it = lower_bound(locations.begin(), locations.end(), id, LocationComparer::compareById);
+	if (it != locations.end())
+	{
+		return *it;
+	}
+	return Location();
 }
 
 Route BKMapData::getRoute(const Location& loc1, const Location& loc2) const
@@ -86,6 +92,11 @@ std::vector<Location> BKMapData::listLocationsInRange(const Location& centerLoc,
 
 }
 
+int BKMapData::getLastLocationId() const
+{
+	return locations.end()->getId();
+}
+
 /// <summary>
 /// Convert all data from file to array of infomation
 /// Then initialize the BKMapData
@@ -97,6 +108,7 @@ BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& 
 {
 	ifstream locFile(locationFilePath);
 	ifstream routeFile(routeFilePath);
+	if (locFile.fail() || routeFile.fail()) throw ios_base::failure("Cannot open the files to read the data.");
 	string buf;
 	vector<string> loc, route;
 	while (getline(locFile, buf)) 
@@ -114,7 +126,7 @@ BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& 
 			routeStringData.push_back('\n');
 			if (getline(routeFile, buf)) 
 			{
-				if (checkValidRouteLength(buf))
+				if (Utils::isNonNegativeNumber(buf))
 				{
 					routeStringData += buf;
 					routeStringData.push_back('\n');
@@ -125,7 +137,7 @@ BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& 
 		}
 		else if (!routeStringData.empty()) // if first line is not PATH: -> invalid file
 		{
-			if (checkValidRouteInfo(buf))
+			if (checkValidChunkFormat(buf))
 			{
 				routeStringData += buf;
 				routeStringData.push_back('\n');
@@ -147,23 +159,36 @@ BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& 
 void BKMapData::saveDataToFile(const string& locationFilePath, const string& routeFilePath) const
 {
 	fstream file(locationFilePath);
+	if (file.fail()) throw ios_base::failure("Cannot open the location file to save the data.");
 	for (const auto& loc : locations)
 		file << loc.toString() << '\n';
 
 	file.close();
 	file.open(routeFilePath);
+	if (file.fail()) throw ios_base::failure("Cannot open the route file to save the data.");
 
 	for (const auto& route : routes)
 		file << route.toString() << '\n';
 }
 
-void BKMapData::addLocation(Location location)
+void BKMapData::addLocation(int id, float longitude, float latitude)
 {
-	locations.insert(location);
+	locations.emplace(id, longitude, latitude);
 }
 
-void BKMapData::addRoute(Route route)
+/// <summary>
+/// 
+/// </summary>
+/// <param name="startId"></param>
+/// <param name="destId"></param>
+/// <param name="length"></param>
+/// <param name="chunkFormat">all chunk format need to be validated before use this function</param>
+void BKMapData::addRoute(int startId, int destId, float length, const vector<string>& chunkFormatList)
 {
-	routes.push_back(route);
+	vector<RouteChunk> chunks;
+	for (auto& chunkFormat : chunkFormatList)
+	{
+		chunks.emplace_back(chunkFormat);
+	}
+	routes.emplace_back(startId, destId, length, chunks);
 }
-

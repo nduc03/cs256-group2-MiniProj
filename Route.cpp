@@ -47,9 +47,9 @@ float Route::getRouteArea() const
 string Route::toString() const
 {
     string res = "PATH:";
-    res += to_string(startLoc.id);
+    res += to_string(startLoc.getId());
     res.push_back(',');
-    res += to_string(destLoc.id);
+    res += to_string(destLoc.getId());
     res.push_back('\n');
     res += to_string(length);
     res.push_back('\n');
