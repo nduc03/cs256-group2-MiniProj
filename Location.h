@@ -7,10 +7,11 @@ public:
 	Location(std::string locationFormat);
 	Location();
 	int getId() const;
-	int getLongitude() const;
-	int getLatitude() const;
+	float getLongitude() const;
+	float getLatitude() const;
 	std::string toString() const;
-	static float getDistance(Location loc1, Location loc2);
+	std::string describe() const;
+	static double getDistance(const Location& loc1, const Location& loc2);
 	bool operator==(const Location&) const;
 private:
 	int id;

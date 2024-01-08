@@ -9,14 +9,15 @@ class BKMapData
 {
 public:
 	BKMapData();
-	Location findLocationById(int id) const;
+	const Location* findLocationById(int id) const;
 
 	void addLocation(int id, float longitude, float latitude);
 	void addRoute(int startId, int destId, float length, const std::vector<std::string>& chunkFormat);
-	Route getRoute(const Location& loc1, const Location& loc2) const;
-	std::vector<Route> findRoute(const Location& loc1, const Location& loc2) const;
+	const Route* getRoute(int startID, int destID) const;
+	std::vector<Route> findRoute(int startId, int destID) const;
 	std::vector<Location> listLocationsInRange(const Location& centerLoc, float distance) const;
 	int getLastLocationId() const;
+	std::vector<Route> listAllInvalidRoute() const;
 
 	static BKMapData initFromFile(const std::string& locationFilePath, const std::string& routeFilePath);
 	static bool checkValidChunkFormat(std::string);
