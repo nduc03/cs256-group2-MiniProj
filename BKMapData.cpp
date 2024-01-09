@@ -179,7 +179,7 @@ vector<Route> BKMapData::listAllInvalidRoute() const
 /// <param name="locationFilePath"></param>
 /// <param name="routeFilePath"></param>
 /// <returns></returns>
-BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& routeFilePath) // note error
+BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& routeFilePath)
 {
 	ifstream locFile(locationFilePath);
 	ifstream routeFile(routeFilePath);

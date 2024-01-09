@@ -9,12 +9,15 @@ enum RouteType
 
 struct RouteChunk 
 {
-	int location; // also means current location when reading the file
+	int location;
 	float width;
 	RouteType routeType;
 	RouteChunk(int location, float width, RouteType routeType);
+	// automatically parse the string that have the RouteChunk format then construct the object
 	RouteChunk(std::string routeChunkFormat);
+	// convert the object back to the string with the same format as the file
 	std::string toString() const;
+	// describe the data of the chunk
 	std::string describe() const;
 };
 
@@ -29,7 +32,9 @@ public:
 
 	bool checkValidRoute() const;
 	float getRouteArea() const;
+	// convert the object back to the string with the same format as the file
 	std::string toString() const;
+	// describe the data of the route
 	std::string describe() const;
 private:
 	float length;

@@ -14,7 +14,7 @@ Location::Location(int id, float longitude, float latitude)
     this->latitude = latitude;
 }
 
-Location::Location(string locationFormat)
+Location::Location(string locationFormat) 
 {
     vector<string> temp;
     temp = Utils::split(locationFormat, ',');
@@ -41,6 +41,7 @@ float Location::getLatitude() const
 {
     return latitude;
 }
+
 string Location::toString() const
 {
     return to_string(id) + "," + format("{:.2f}", longitude) + "," + format("{:.2f}", latitude);

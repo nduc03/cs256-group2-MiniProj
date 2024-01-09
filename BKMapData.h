@@ -18,6 +18,7 @@ public:
 	const Route* getRoute(int startID, int destID) const;
 	// Return a list of all possible routes in reverse from destination to start.
 	std::vector<std::vector<Route>> findReverseRoutes(int startId, int destID) const;
+	// Return a list of location that located within the radius of center location
 	std::vector<Location> listLocationsInRange(const Location& centerLoc, float distance) const;
 	int getLastLocationId() const;
 	std::vector<Route> listAllInvalidRoute() const;
@@ -30,5 +31,7 @@ private:
 	std::vector<Route> routes;
 
 	BKMapData(std::vector<std::string> locations, std::vector<std::string> routes);
+	// Use recursive method to find all the route
+	// Limit the deepness of recursion by 2 times the size of the routes vector
 	std::vector<std::vector<Route>> recurRoutes(int startId, int endId, int recursiveLevel) const;
 };

@@ -61,19 +61,24 @@ Location Route::getDestLoc() const
 
 bool Route::checkValidRoute() const
 {
+    // valid route need at least 2 chunks, 
     if (chunks.size() < 2) return false;
+    // the first chunk location must be 0, 
     if (chunks.at(0).location != 0) return false;
+    // the last chunk location must equal to the length of the route,
     if (chunks.at(chunks.size() - 1).location != length) return false;
+    // the route length must greater than or equal the distance between the 2 location
     if (Location::getDistance(startLoc, destLoc) > length) return false;
     return true;
 }
 
+// Use the area formula of trapezoid then divided by 1000 to convert from m to km
 float Route::getRouteArea() const
 {
     float res = 0;
     for (int i = 1; i < chunks.size(); i++)
     {
-        res += 0.5f * 0.001f * 
+        res += 0.001f * 0.5f *
             (chunks.at(i).width + chunks.at(i - 1).width) * 
             (chunks.at(i).location - chunks.at(i - 1).location);
     }

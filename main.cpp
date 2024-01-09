@@ -22,7 +22,7 @@ vector<string> Utils::split(const string& str, char delim)
 	return v;
 }
 
-bool Utils::isNonNegativeNumber(const string& str) // note error
+bool Utils::isNonNegativeNumber(const string& str)
 {
 	int dotCount = 0;
 	for (auto& c : str)
@@ -43,6 +43,8 @@ bool Utils::isBlankString(const string& str)
 	return true;
 }
 
+// print the prompt to console then ask for input
+// just like input() in python
 static string promptInput(const string& prompt)
 {
 	cout << prompt;
@@ -51,6 +53,8 @@ static string promptInput(const string& prompt)
 	return buf;
 }
 
+// handle all the tasks related to feature 1
+// which is adding new data
 static void handleInputNewData(BKMapData& data)
 {
 	string input;
