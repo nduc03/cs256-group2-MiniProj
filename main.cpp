@@ -178,7 +178,7 @@ int main()
 			{
 				int start = stoi(promptInput("Enter start location ID: "));
 				int dest = stoi(promptInput("Enter destination ID: "));
-				auto possibleRoutes = data.findRoute(start, dest);
+				auto possibleRoutes = data.findReverseRoutes(start, dest);
 				if (possibleRoutes.empty()) 
 					cout << "There is no possible routes between location ID " << start << " and location ID " << dest << ".\n";
 				else 

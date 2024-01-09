@@ -9,12 +9,15 @@ class BKMapData
 {
 public:
 	BKMapData();
+	// Return Location if exist, if not return nullptr
 	const Location* findLocationById(int id) const;
 
 	void addLocation(int id, float longitude, float latitude);
 	void addRoute(int startId, int destId, float length, const std::vector<std::string>& chunkFormat);
+	// Return Route if exist, if not return nullptr
 	const Route* getRoute(int startID, int destID) const;
-	std::vector<std::vector<Route>> findRoute(int startId, int destID) const;
+	// Return a list of all possible routes in reverse from destination to start.
+	std::vector<std::vector<Route>> findReverseRoutes(int startId, int destID) const;
 	std::vector<Location> listLocationsInRange(const Location& centerLoc, float distance) const;
 	int getLastLocationId() const;
 	std::vector<Route> listAllInvalidRoute() const;

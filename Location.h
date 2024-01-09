@@ -10,8 +10,11 @@ public:
 	float getLongitude() const;
 	float getLatitude() const;
 	std::string toString() const;
+	// Duc
 	std::string describe() const;
+	// Anh Trong
 	static double getDistance(const Location& loc1, const Location& loc2);
+	// Duc
 	bool operator==(const Location&) const;
 private:
 	int id;

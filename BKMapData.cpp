@@ -46,6 +46,7 @@ BKMapData::BKMapData(vector<string> locations, vector<string> routes)
 	}
 }
 
+// Using recursion to brute force and find all the routes
 // The routes in reverse order and is not sorted
 vector<vector<Route>> BKMapData::recurRoutes(int start, int dest, int recursiveLevel) const
 {
@@ -136,7 +137,7 @@ const Route* BKMapData::getRoute(int startID, int destID) const
 /// <param name="startId"></param>
 /// <param name="endId"></param>
 /// <returns>Return all possible routes, where each route path is in the reverse order</returns>
-vector<vector<Route>> BKMapData::findRoute(int startId, int destId) const
+vector<vector<Route>> BKMapData::findReverseRoutes(int startId, int destId) const
 {
 	auto res = recurRoutes(startId, destId, 0);
 	sort(res.begin(), res.end(), [](vector<Route>& a, vector<Route>& b) { return a.size() < b.size(); });
