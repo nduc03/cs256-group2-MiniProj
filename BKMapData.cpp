@@ -54,7 +54,7 @@ vector<vector<Route>> BKMapData::recurRoutes(int start, int dest, int recursiveL
 	vector<vector<Route>> recurList;
 	for (auto& route : routes)
 	{
-		if (route.getStartLoc().getId() == start)
+		if (route.getStartLoc().getId() == start && route.checkValidRoute())
 		{
 			if (route.getDestLoc().getId() == dest) recurList.push_back(vector<Route>({ route }));
 			for (auto& subRoute : recurRoutes(route.getDestLoc().getId(), dest, ++recursiveLevel))
@@ -79,6 +79,15 @@ bool BKMapData::checkValidChunkFormat(string str)
 {
 	auto infoParts = Utils::split(str, ',');
 	if (infoParts.size() != 3) return false;
+	try
+	{
+		int type = stoi(infoParts[2]);
+		if (type != 1 && type != 2) return false;
+	}
+	catch (invalid_argument)
+	{
+		return false;
+	}
 	for (auto& part : infoParts)
 	{
 		if (!Utils::isNonNegativeNumber(part)) return false;
@@ -121,15 +130,15 @@ const Route* BKMapData::getRoute(int startID, int destID) const
 }
 
 /// <summary>
-/// The correct route is in reverse order, remember to use reverse for loop to iterate the correct route
+/// The correct route is in reverse order, remember to use reverse for-loop to iterate the correct route
 /// All the possible routes are sorted in ascending order of the length
 /// </summary>
 /// <param name="startId"></param>
 /// <param name="endId"></param>
-/// <returns></returns>
-vector<vector<Route>> BKMapData::findRoute(int startId, int endId) const
+/// <returns>Return all possible routes, where each route path is in the reverse order</returns>
+vector<vector<Route>> BKMapData::findRoute(int startId, int destId) const
 {
-	auto res = recurRoutes(startId, endId, 0);
+	auto res = recurRoutes(startId, destId, 0);
 	sort(res.begin(), res.end(), [](vector<Route>& a, vector<Route>& b) { return a.size() < b.size(); });
 	return res;
 }
@@ -220,7 +229,7 @@ BKMapData BKMapData::initFromFile(const string& locationFilePath, const string& 
 		}
 		else throw invalid_argument("Invalid file format! Cannot read the file. Current buffer: " + buf);
 	}
-
+	route.emplace_back(routeStringData); // dont forget to add the last path.
 	return BKMapData(loc, route);
 }
 

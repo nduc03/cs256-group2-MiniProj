@@ -66,10 +66,11 @@ static void handleInputNewData(BKMapData& data)
 				float lat = stof(promptInput("Enter latitude: "));
 				float longitude = stof(promptInput("Enter longitude: "));
 				data.addLocation(id, longitude, lat);
+				break;
 			}
 			else if (input == "2")
 			{
-				const Location* start = data.findLocationById(stoi(promptInput("Enter start location ID:")));
+				const Location* start = data.findLocationById(stoi(promptInput("Enter start location ID: ")));
 				if (start == nullptr)
 				{
 					cout << "Invalid input! Please enter data again.\n";
@@ -81,6 +82,12 @@ static void handleInputNewData(BKMapData& data)
 					cout << "Invalid input! Please enter data again.\n";
 					continue;
 				}
+				if (data.getRoute(start->getId(), dest->getId()) != nullptr)
+				{
+					cout << "Route between 2 locations existed! Please enter data again.\n";
+					continue;
+				}
+
 				float length = stof(promptInput("Enter route length: "));
 				cout << "Describe every position of the route in number with the format like this: position, width, type.\n"
 					<< "Where type is 1 when that part is indented, type is 2 when it is diagonal.\n"
@@ -96,8 +103,13 @@ static void handleInputNewData(BKMapData& data)
 					}
 					else cout << "Invalid input! Please enter data again.\n";
 				}
-				if (chunkFormatlist.size() < 2) cout << "Invalid input! Please enter data again.\n";
+				if (chunkFormatlist.size() < 2)
+				{
+					cout << "Invalid input! Please enter data again.\n";
+					continue;
+				}
 				data.addRoute(start->getId(), dest->getId(), length, chunkFormatlist);
+				break;
 			}
 			else cout << "Invalid input! Please enter data again.\n";
 		}
@@ -105,7 +117,6 @@ static void handleInputNewData(BKMapData& data)
 		{
 			cout << "Invalid input! Please enter data again.\n";
 		}
-		break;
 	}
 }
 
@@ -129,7 +140,7 @@ int main()
 		return -1;
 	}
 	string input;
-	do
+	while (true)
 	{
 		try
 		{
@@ -163,20 +174,15 @@ int main()
 				}
 				else cout << "The direct route between these 2 locations does not exist.\n";
 			}
-			else if (input == "3")
+			else if (input == "3") // only find valid route 
 			{
-				// Enter 2 locations, display a number for routes (direct and indirect) between them (if any), 
-				// and draw a map of the routes sorted by length between the two locations.
-				//auto firstop = stoi(promptInput("Enter start location ID: "));
-				//auto secop = stoi(promptInput("Enter destnation ID: "));
-				//cout << firstop << '-' << secop;
 				int start = stoi(promptInput("Enter start location ID: "));
 				int dest = stoi(promptInput("Enter destination ID: "));
 				auto possibleRoutes = data.findRoute(start, dest);
 				if (possibleRoutes.empty()) 
-					cout << "There is no routes between location ID " << start << "  and location ID " << dest << ".\n";
+					cout << "There is no possible routes between location ID " << start << " and location ID " << dest << ".\n";
 				else 
-					cout << "Total possible route(s) between location ID " 
+					cout << "Total possible route(s) between location ID "
 					<< start << " and location ID " 
 					<< dest << ": " << possibleRoutes.size() << '\n';
 				for (int n = 0; n < possibleRoutes.size(); n++)
@@ -212,7 +218,7 @@ int main()
 			else if (input == "5")
 			{
 				auto invalidRoutes = data.listAllInvalidRoute();
-				if (invalidRoutes.empty()) cout << "There is no invalid route.";
+				if (invalidRoutes.empty()) cout << "There is no invalid route.\n";
 				else
 				{
 					cout << "List of invalid route:\n";
@@ -238,7 +244,8 @@ int main()
 		}
 		system("pause");
 		system("cls");
-	} while (input != "6");
+	}
 	data.saveDataToFile("Location.txt", "Path.txt");
-	cout << "Program exited!\n";
+	cout << "Program exited! Press any key to close the window.\n";
+	system("pause >nul");
 }

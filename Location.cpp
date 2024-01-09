@@ -3,6 +3,7 @@
 #include "Location.h"
 #include "Utils.h"
 #include <cmath>
+#include <format>
 
 using namespace std;
 
@@ -42,7 +43,7 @@ float Location::getLatitude() const
 }
 string Location::toString() const
 {
-    return to_string(id) + "," + to_string(latitude) + "," + to_string(longitude);
+    return to_string(id) + "," + format("{:.2f}", longitude) + "," + format("{:.2f}", latitude);
 }
 
 string Location::describe() const
