@@ -167,6 +167,28 @@ int main()
 			{
 				// Enter 2 locations, display a number for routes (direct and indirect) between them (if any), 
 				// and draw a map of the routes sorted by length between the two locations.
+				//auto firstop = stoi(promptInput("Enter start location ID: "));
+				//auto secop = stoi(promptInput("Enter destnation ID: "));
+				//cout << firstop << '-' << secop;
+				int start = stoi(promptInput("Enter start location ID: "));
+				int dest = stoi(promptInput("Enter destination ID: "));
+				auto possibleRoutes = data.findRoute(start, dest);
+				if (possibleRoutes.empty()) 
+					cout << "There is no routes between location ID " << start << "  and location ID " << dest << ".\n";
+				else 
+					cout << "Total possible route(s) between location ID " 
+					<< start << " and location ID " 
+					<< dest << ": " << possibleRoutes.size() << '\n';
+				for (int n = 0; n < possibleRoutes.size(); n++)
+				{
+					cout << "Option " << n + 1 << ":\n";
+					cout << possibleRoutes[n][possibleRoutes[n].size() - 1].getStartLoc().getId();
+					for (int i = possibleRoutes[n].size() - 1; i >= 0; i--)
+					{
+						cout << '-' << possibleRoutes[n][i].getDestLoc().getId();
+					}
+					cout << '\n';
+				}
 			}
 			else if (input == "4")
 			{
@@ -214,6 +236,8 @@ int main()
 		{
 			cout << "Invalid input! Please enter data again.\n";
 		}
+		system("pause");
+		system("cls");
 	} while (input != "6");
 	data.saveDataToFile("Location.txt", "Path.txt");
 	cout << "Program exited!\n";

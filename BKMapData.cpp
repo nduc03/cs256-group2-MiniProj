@@ -1,7 +1,7 @@
-﻿#include <algorithm>
-#include <fstream>
-#include "BKMapData.h"
+﻿#include "BKMapData.h"
 #include "Utils.h"
+#include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -46,7 +46,36 @@ BKMapData::BKMapData(vector<string> locations, vector<string> routes)
 	}
 }
 
-bool BKMapData::checkValidChunkFormat(string str) // note error
+// The routes in reverse order and is not sorted
+vector<vector<Route>> BKMapData::recurRoutes(int start, int dest, int recursiveLevel) const
+{
+	if (recursiveLevel >= routes.size() * 2) return vector<vector<Route>>(); // Prevent infinity recursive
+	if (start == dest) return vector<vector<Route>>();
+	vector<vector<Route>> recurList;
+	for (auto& route : routes)
+	{
+		if (route.getStartLoc().getId() == start)
+		{
+			if (route.getDestLoc().getId() == dest) recurList.push_back(vector<Route>({ route }));
+			for (auto& subRoute : recurRoutes(route.getDestLoc().getId(), dest, ++recursiveLevel))
+			{
+				subRoute.push_back(route);
+				recurList.push_back(subRoute);
+			}
+		}
+	}
+
+	// Remove all routes with incorrect destination
+
+	vector<vector<Route>> res;
+	for (int i = 0; i < recurList.size(); i++)
+	{
+		if (recurList[i][0].getDestLoc().getId() == dest) res.push_back(recurList[i]);
+	}
+	return res;
+}
+
+bool BKMapData::checkValidChunkFormat(string str)
 {
 	auto infoParts = Utils::split(str, ',');
 	if (infoParts.size() != 3) return false;
@@ -91,9 +120,18 @@ const Route* BKMapData::getRoute(int startID, int destID) const
 	return nullptr;
 }
 
-vector<Route> BKMapData::findRoute(int locID1, int locID2) const
+/// <summary>
+/// The correct route is in reverse order, remember to use reverse for loop to iterate the correct route
+/// All the possible routes are sorted in ascending order of the length
+/// </summary>
+/// <param name="startId"></param>
+/// <param name="endId"></param>
+/// <returns></returns>
+vector<vector<Route>> BKMapData::findRoute(int startId, int endId) const
 {
-	return vector<Route>();
+	auto res = recurRoutes(startId, endId, 0);
+	sort(res.begin(), res.end(), [](vector<Route>& a, vector<Route>& b) { return a.size() < b.size(); });
+	return res;
 }
 
 vector<Location> BKMapData::listLocationsInRange(const Location& centerLoc, float distance) const

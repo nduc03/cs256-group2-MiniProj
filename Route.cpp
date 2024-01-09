@@ -59,17 +59,6 @@ Location Route::getDestLoc() const
     return destLoc;
 }
 
-// tính năng số 3, dùng đệ quy để tìm toàn bộ đường đi
-Route* Route::nextRoute(Route* current) const
-{
-    return nullptr;
-}
-
-std::vector<Route> Route::allRouteTo(Route to) const
-{
-    return std::vector<Route>();
-}
-
 bool Route::checkValidRoute() const
 {
     if (chunks.size() < 2) return false;

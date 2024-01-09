@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include <vector>
 #include "Location.h"
+#include <vector>
 
 enum RouteType 
 {
@@ -26,8 +26,6 @@ public:
 	float getLength() const;
 	Location getStartLoc() const;
 	Location getDestLoc() const;
-	Route* nextRoute(Route* current) const;
-	std::vector<Route> allRouteTo(Route to) const;
 
 	bool checkValidRoute() const;
 	float getRouteArea() const;
