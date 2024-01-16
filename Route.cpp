@@ -79,7 +79,7 @@ float Route::getRouteArea() const
     for (int i = 1; i < chunks.size(); i++)
     {
         res += 0.001f * 0.5f *
-            (chunks.at(i).width + chunks.at(i - 1).width) * 
+            (chunks.at(i).width + chunks.at(i - 1).width) *
             (chunks.at(i).location - chunks.at(i - 1).location);
     }
     return res;
